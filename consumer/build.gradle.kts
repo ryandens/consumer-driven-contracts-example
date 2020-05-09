@@ -13,4 +13,5 @@ dependencies {
     annotationProcessor("com.google.auto.value", "auto-value", autoValueVersion)
     // jackson for object serialization/deserialization
     implementation("com.fasterxml.jackson.core", "jackson-databind", "2.11.0")
+    testImplementation("au.com.dius", "pact-jvm-consumer-junit5", "4.0.10")
 }

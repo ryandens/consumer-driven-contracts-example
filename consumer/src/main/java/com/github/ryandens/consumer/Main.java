@@ -39,7 +39,11 @@ public final class Main {
                 HttpRequest.BodyPublishers.ofByteArray(objectMapper.writeValueAsBytes(coffeeOrder)))
             .build();
 
-    return objectMapper.readValue(
-        httpClient.send(request, HttpResponse.BodyHandlers.ofString()).body(), Receipt.class);
+    final var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+    if (response.statusCode() == 200) {
+      return objectMapper.readValue(response.body(), Receipt.class);
+    } else {
+      throw new RuntimeException("Unexpected response code: " + response.statusCode());
+    }
   }
 }
