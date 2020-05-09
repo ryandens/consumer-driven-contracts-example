@@ -1,15 +1,22 @@
 package com.github.ryandens.provider.messages;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class Receipt {
 
-  public static Receipt of(final CoffeeOrder coffeeOrder, final double price) {
+  @JsonCreator
+  public static Receipt of(
+      @JsonProperty("coffeeOrder") final CoffeeOrder coffeeOrder,
+      @JsonProperty("price") final double price) {
     return new AutoValue_Receipt(coffeeOrder, price);
   }
 
+  @JsonProperty("coffeeOrder")
   public abstract CoffeeOrder coffeeOrder();
 
+  @JsonProperty("price")
   public abstract double price();
 }

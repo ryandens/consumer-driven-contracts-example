@@ -1,15 +1,21 @@
 package com.github.ryandens.provider.messages;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class CoffeeOrder {
 
+  @JsonProperty("size")
   public abstract Size size();
 
+  @JsonProperty("bean")
   public abstract Bean bean();
 
-  public static CoffeeOrder of(final Size size, final Bean bean) {
+  @JsonCreator
+  public static CoffeeOrder of(
+      @JsonProperty("size") final Size size, @JsonProperty("bean") final Bean bean) {
     return new AutoValue_CoffeeOrder(size, bean);
   }
 
