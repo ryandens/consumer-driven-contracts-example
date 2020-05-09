@@ -21,4 +21,10 @@ dependencies {
     val autoValueVersion = "1.7"
     compileOnly("com.google.auto.value", "auto-value-annotations", autoValueVersion)
     annotationProcessor("com.google.auto.value", "auto-value", autoValueVersion)
+    testImplementation("au.com.dius", "pact-jvm-provider-junit5", "4.0.10")
+}
+
+tasks.test {
+    // depend on the consumer tests running so we always have the latest pact available
+    dependsOn(project(":consumer").tasks["test"])
 }
