@@ -30,7 +30,7 @@ public final class Main {
     System.out.println("receipt: " + receipt.toString());
   }
 
-  public static Receipt sendOrder(final CoffeeOrder coffeeOrder, final String hostName)
+  static Receipt sendOrder(final CoffeeOrder coffeeOrder, final String hostName)
       throws InterruptedException, IOException {
     final var request =
         HttpRequest.newBuilder(URI.create(hostName + "/coffee"))
