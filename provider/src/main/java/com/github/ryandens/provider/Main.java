@@ -1,6 +1,5 @@
 package com.github.ryandens.provider;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Feature;
@@ -16,9 +15,7 @@ public final class Main {
    */
   public static void main(final String[] args) throws InterruptedException {
     final var services =
-        Set.of(
-            new CoffeeService(new PriceService(), new ObjectMapper()),
-            new JacksonJaxbJsonProvider());
+        Set.of(new CoffeeService(new PriceService()), new JacksonJaxbJsonProvider());
     final var resourceConfig =
         ResourceConfig.forApplication(
             new Application() {
