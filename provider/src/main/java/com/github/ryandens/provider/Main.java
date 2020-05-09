@@ -1,5 +1,6 @@
 package com.github.ryandens.provider;
 
+import com.sun.net.httpserver.HttpServer;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Feature;
@@ -14,6 +15,12 @@ public final class Main {
    * Entry point of the API Provider application, responsible for starting and stopping resources
    */
   public static void main(final String[] args) throws InterruptedException {
+    final HttpServer httpServer = createHttpServer(true, 8080);
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> httpServer.stop(0)));
+    Thread.currentThread().join();
+  }
+
+  static HttpServer createHttpServer(final boolean startHttpServer, final int port) {
     final var services =
         Set.of(new CoffeeService(new PriceService()), new JacksonJaxbJsonProvider());
     final var resourceConfig =
@@ -29,10 +36,9 @@ public final class Main {
                         });
               }
             });
-    final var httpServer =
-        JdkHttpServerFactory.createHttpServer(
-            UriBuilder.fromUri("http://localhost/").port(8080).build(), resourceConfig, true);
-    Runtime.getRuntime().addShutdownHook(new Thread(() -> httpServer.stop(0)));
-    Thread.currentThread().join();
+    return JdkHttpServerFactory.createHttpServer(
+        UriBuilder.fromUri("http://localhost/").port(port).build(),
+        resourceConfig,
+        startHttpServer);
   }
 }
